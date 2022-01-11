@@ -12,8 +12,8 @@ const access = promisify(fs.access);
 const copy = promisify(ncp);
 
 function makeDirectory(options) {
-    if (!fs.existsSync(`/${options.path}`)) {
-        fs.mkdirSync(`/${options.path}`);
+    if (!fs.existsSync(`./${options.path}`)) {
+        fs.mkdirSync(`./${options.path}`);
     } else {
         console.error('%s That directory already exists', chalk.red.bold('ERROR'));
         process.exit(1);

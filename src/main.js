@@ -95,5 +95,6 @@ export async function createReactProject(options) {
 
     await tasks.run();
     console.log('%s Project ready', chalk.green.bold('DONE'));
+    console.log(`%s cd ${options.targetDirectory} npm i && npm run dev`, chalk.cyan.bold('INFO'));
     return true;
 }

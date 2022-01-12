@@ -1,2 +1,5 @@
 /node_modules/
 /.idea/
+/templates/javascript/dist/
+/templates/javascript/node_modules/
+/templates/javascript/package-lock.json

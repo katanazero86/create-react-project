@@ -6,7 +6,7 @@ import path from 'path';
 import {promisify} from 'util';
 import {execa} from 'execa';
 import Listr from 'listr';
-import {projectInstall} from 'pkg-install';
+import {getPkg, setPkg} from './utils/pkgUtils.js';
 
 const access = promisify(fs.access);
 const copy = promisify(ncp);
@@ -34,6 +34,21 @@ async function initGit(options) {
         return Promise.reject(new Error('Failed to initialize git'));
     }
     return;
+}
+
+function addDependencyAndInitName(options) {
+    const pkg = getPkg(options.targetDirectory);
+    if(!pkg) {
+        console.error(err);
+        console.error('%s package.json file not defined', chalk.red.bold('ERROR'));
+    } else {
+        pkg.name = options.path;
+
+        if(options.scss) {
+            pkg.devDependencies['sass'] = '^1.47.0';
+        }
+        setPkg(options.targetDirectory, pkg);
+    }
 }
 
 export async function createReactProject(options) {
@@ -73,16 +88,9 @@ export async function createReactProject(options) {
             enabled: () => options.git,
         },
         {
-            title: 'Install dependencies',
-            task: () =>
-                projectInstall({
-                    cwd: options.targetDirectory,
-                }),
-            skip: () =>
-                !options.runInstall
-                    ? 'Pass --install to automatically install dependencies'
-                    : undefined,
-        },
+            title: 'Add dependency to project',
+            task: () => addDependencyAndInitName(options),
+        }
     ]);
 
     await tasks.run();

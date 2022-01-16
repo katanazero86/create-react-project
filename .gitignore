@@ -3,3 +3,5 @@
 /templates/javascript/dist/
 /templates/javascript/node_modules/
 /templates/javascript/package-lock.json
+/templates/typescript/node_modules/
+/templates/typescript/package-lock.json

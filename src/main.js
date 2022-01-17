@@ -39,7 +39,6 @@ async function initGit(options) {
 function addDependencyAndInitName(options) {
     const pkg = getPkg(options.targetDirectory);
     if(!pkg) {
-        console.error(err);
         console.error('%s package.json file not defined', chalk.red.bold('ERROR'));
     } else {
         pkg.name = options.path;

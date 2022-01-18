@@ -24,8 +24,8 @@ function parseArgumentsIntoOptions(rawArgs) {
         }
 
         let argvTemplate = null;
-        if(args['--javascript']) argvTemplate = 'JavaScript';
-        if(args['--typescript']) argvTemplate = 'TypeScript';
+        if (args['--javascript']) argvTemplate = 'JavaScript';
+        if (args['--typescript']) argvTemplate = 'TypeScript';
 
         return {
             skipPrompts: args['--yes'] || false,
@@ -79,12 +79,22 @@ async function promptForMissingOptions(options) {
         });
     }
 
+    if (!options.tailwind) {
+        questions.push({
+            type: 'confirm',
+            name: 'tailwind',
+            message: 'Add tailwind CSS?(v3)',
+            default: false,
+        });
+    }
+
     const answers = await inquirer.prompt(questions);
     return {
         ...options,
         template: options.template || answers.template,
         git: options.git || answers.git,
         scss: options.scss || answers.scss,
+        tailwind: options.tailwind || answers.tailwind,
     };
 }
 

@@ -34,6 +34,14 @@ module.exports = function (webpackEnv, argv) {
             {
                 loader: 'css-loader',
                 options: cssOptions
+            },
+            {
+                loader: require.resolve('postcss-loader'),
+                options: {
+                    postcssOptions: {
+                        ident: 'postcss'
+                    }
+                }
             }
         ];
 
@@ -42,9 +50,7 @@ module.exports = function (webpackEnv, argv) {
                 {
                     loader: require.resolve(preProcessor),
                     options: {
-                        indentWidth: 4,
                         sourceMap: isEnvDevelopment,
-                        outputStyle: 'compressed',
                     },
                 }
             );
@@ -78,6 +84,7 @@ module.exports = function (webpackEnv, argv) {
                         extensions: [".js", ".jsx"],
                     },
                 },
+                // extension .css
                 {
                     test: cssRegExp,
                     exclude: cssModuleRegExp,
@@ -85,6 +92,7 @@ module.exports = function (webpackEnv, argv) {
                         ...cssLoaderOptions
                     }),
                 },
+                // extension .module.css
                 {
                     test: cssModuleRegExp,
                     use: getStyleLoaders({
@@ -126,7 +134,7 @@ module.exports = function (webpackEnv, argv) {
                 patterns: [
                     {
                         from: path.resolve(__dirname, 'public'),
-                        globOptions : {
+                        globOptions: {
                             ignore: [
                                 '**/index.html'
                             ],

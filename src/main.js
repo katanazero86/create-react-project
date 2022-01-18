@@ -26,6 +26,20 @@ async function copyTemplateFiles(options) {
     });
 }
 
+async function copyTemplateFilesByTailwindCSS(options) {
+    return copy(options.tailwindTemplateDirectory, options.targetDirectory, {
+        clobber: true,
+        filter: (source) => {
+            if (fs.lstatSync(source).isDirectory()) {
+                return true;
+            } else {
+                const regExp =  /package.json/g;
+                return source.search(regExp) === -1;
+            }
+        },
+    });
+}
+
 async function initGit(options) {
     const result = await execa('git', ['init'], {
         cwd: options.targetDirectory,
@@ -38,13 +52,18 @@ async function initGit(options) {
 
 function addDependencyAndInitName(options) {
     const pkg = getPkg(options.targetDirectory);
-    if(!pkg) {
+    if (!pkg) {
         console.error('%s package.json file not defined', chalk.red.bold('ERROR'));
     } else {
         pkg.name = options.path;
 
-        if(options.scss) {
+        if (options.scss) {
             pkg.devDependencies['sass'] = '^1.47.0';
+        }
+        if (options.tailwind) {
+            pkg.devDependencies['autoprefixer'] = '^10.4.2';
+            pkg.devDependencies['postcss'] = '^8.4.5';
+            pkg.devDependencies['tailwindcss'] = '^3.0.15';
         }
         setPkg(options.targetDirectory, pkg);
     }
@@ -62,6 +81,14 @@ export async function createReactProject(options) {
         '../templates',
         options.template
     );
+    if (options.tailwind) {
+        const templateDir = path.resolve(
+            pathName,
+            '../templates/tailwind',
+        );
+        options.tailwindTemplateDirectory = templateDir;
+    }
+
     options.templateDirectory = templateDir;
 
     try {
@@ -82,14 +109,18 @@ export async function createReactProject(options) {
             task: () => copyTemplateFiles(options),
         },
         {
-            title: 'Initialize git',
-            task: () => initGit(options),
-            enabled: () => options.git,
+            title: 'Copy TailwindCSS files',
+            task: () => copyTemplateFilesByTailwindCSS(options),
         },
         {
             title: 'Add dependency to project',
             task: () => addDependencyAndInitName(options),
-        }
+        },
+        {
+            title: 'Initialize git',
+            task: () => initGit(options),
+            enabled: () => options.git,
+        },
     ]);
 
     await tasks.run();

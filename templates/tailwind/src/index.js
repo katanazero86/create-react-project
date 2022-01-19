@@ -4,4 +4,4 @@ import App from './App';
 
 import './tailwind/tailwind.index.css';
 
-ReactDOM.render(<App/>, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));

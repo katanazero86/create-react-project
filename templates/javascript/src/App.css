@@ -6,7 +6,10 @@
 }
 
 .app--logo {
+    display: inline-block;
     animation: app-logo-spin infinite 20s linear;
+    margin: 0;
+    padding: 0;
 }
 
 @keyframes app-logo-spin {

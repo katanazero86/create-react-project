@@ -92,7 +92,6 @@ function addDependencyAndInitName(options) {
             pkg.devDependencies['prettier'] = '^2.5.1';
 
             if (options.template === 'typescript') {
-                console.log('test');
                 pkg.devDependencies['@typescript-eslint/eslint-plugin'] = '^5.10.0';
                 pkg.devDependencies['@typescript-eslint/parser'] = '^5.10.0';
             }

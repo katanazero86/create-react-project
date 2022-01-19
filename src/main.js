@@ -33,10 +33,16 @@ async function copyTemplateFilesByTailwindCSS(options) {
             if (fs.lstatSync(source).isDirectory()) {
                 return true;
             } else {
-                const regExp =  /package.json/g;
+                const regExp = /package.json/g;
                 return source.search(regExp) === -1;
             }
         },
+    });
+}
+
+async function copyTemplateFilesByEslintAndPrettier(options) {
+    return copy(options.eslintAndPrettierTemplateDirectory, options.targetDirectory, {
+        clobber: true
     });
 }
 
@@ -46,6 +52,16 @@ async function initGit(options) {
     });
     if (result.failed) {
         return Promise.reject(new Error('Failed to initialize git'));
+    }
+    return;
+}
+
+async function installDependencies(options) {
+    const result = await execa('npm', ['i'], {
+        cwd: options.targetDirectory,
+    });
+    if (result.failed) {
+        return Promise.reject(new Error('Failed to install dependencies'));
     }
     return;
 }
@@ -60,11 +76,34 @@ function addDependencyAndInitName(options) {
         if (options.scss) {
             pkg.devDependencies['sass'] = '^1.47.0';
         }
+
         if (options.tailwind) {
             pkg.devDependencies['autoprefixer'] = '^10.4.2';
             pkg.devDependencies['postcss'] = '^8.4.5';
             pkg.devDependencies['tailwindcss'] = '^3.0.15';
         }
+
+        if (options.eslintAndPrettier) {
+            pkg.devDependencies['eslint'] = '^8.7.0';
+            pkg.devDependencies['eslint-plugin-react'] = '^7.28.0';
+            pkg.devDependencies['eslint-config-prettier'] = '^8.3.0';
+            pkg.devDependencies['eslint-plugin-prettier'] = '^4.0.0';
+            pkg.devDependencies['eslint-webpack-plugin'] = '^3.1.1';
+            pkg.devDependencies['prettier'] = '^2.5.1';
+
+            console.log(options);
+            if (options.template === 'typescript') {
+                console.log('test');
+                pkg.devDependencies['@typescript-eslint/eslint-plugin'] = '^5.10.0';
+                pkg.devDependencies['@typescript-eslint/parser'] = '^5.10.0';
+            }
+
+            pkg.scripts['lint'] = "eslint './src/**/*.{ts,tsx,js,jsx}'";
+            pkg.scripts['lint:fix'] = "eslint --fix './src/**/*.{ts,tsx,js,jsx}'";
+            pkg.scripts['prettier:fix'] = "prettier --write 'src/**/*.{ts,tsx,js,jsx}'";
+
+        }
+
         setPkg(options.targetDirectory, pkg);
     }
 }
@@ -81,6 +120,8 @@ export async function createReactProject(options) {
         '../templates',
         options.template
     );
+    options.templateDirectory = templateDir;
+
     if (options.tailwind) {
         const templateDir = path.resolve(
             pathName,
@@ -89,7 +130,14 @@ export async function createReactProject(options) {
         options.tailwindTemplateDirectory = templateDir;
     }
 
-    options.templateDirectory = templateDir;
+    if (options.eslintAndPrettier) {
+        const templateDir = path.resolve(
+            pathName,
+            `../templates/eslintAndPrettier`,
+            options.template
+        );
+        options.eslintAndPrettierTemplateDirectory = templateDir;
+    }
 
     try {
         await access(templateDir, fs.constants.R_OK);
@@ -110,7 +158,16 @@ export async function createReactProject(options) {
         },
         {
             title: 'Copy TailwindCSS files',
+            enabled: () => {
+                if (!options.tailwindTemplateDirectory) return false;
+                return true;
+            },
             task: () => copyTemplateFilesByTailwindCSS(options),
+        },
+        {
+            title: 'Copy ESLint + Prettier files',
+            enabled: () => options.eslintAndPrettier,
+            task: () => copyTemplateFilesByEslintAndPrettier(options),
         },
         {
             title: 'Add dependency to project',
@@ -121,10 +178,16 @@ export async function createReactProject(options) {
             task: () => initGit(options),
             enabled: () => options.git,
         },
+        {
+            title: 'Install dependencies',
+            task: () => installDependencies(options),
+        }
     ]);
 
     await tasks.run();
-    console.log('%s Project ready', chalk.green.bold('DONE'));
-    console.log(`%s cd ${options.targetDirectory} npm i && npm run dev`, chalk.cyan.bold('INFO'));
+    console.log(`%s! Created by ${options.path} at ${options.targetDirectory}`, chalk.green.bold('SUCCESS'));
+    console.log('%s', chalk.cyan.bold(`cd ${options.path}`));
+    console.log('%s', chalk.cyan.bold(`npm run dev`));
+    console.log('%s', chalk.white.bold.underline(`Happy hacking! :)`));
     return true;
 }

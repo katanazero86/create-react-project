@@ -15,6 +15,7 @@ CSS Preprocessor supports SASS/SCSS.
 Create a project based on the Webpack bundler.
 
 💖 2022.01.18: Add tailwindCSS v3
+💖 2022.01.19: Fix the bug, Add ESLint + Prettier
 
 
 ### install & usage ✨

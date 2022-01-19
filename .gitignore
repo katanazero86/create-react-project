@@ -5,3 +5,5 @@
 /templates/javascript/package-lock.json
 /templates/typescript/node_modules/
 /templates/typescript/package-lock.json
+/templates/eslintAndPrettier/node_modules/
+/templates/eslintAndPrettier/package-lock.json

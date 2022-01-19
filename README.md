@@ -6,15 +6,18 @@
 
 # create-react-project 😎
 
-It is a CLI tool that makes it easy to configure react projects.
+It is a CLI tool that makes it easy to configure react projects. <br/>
+Using create-react-project CLI, Save your time!
 
 The templates provided are JavaScript and TypeScript.
 
 CSS Preprocessor supports SASS/SCSS.
 
+ESLint + Prettier supports
+
 Create a project based on the Webpack bundler.
 
-💖 2022.01.18: Add tailwindCSS v3
+💖 2022.01.18: Add tailwindCSS v3 <br/>
 💖 2022.01.19: Fix the bug, Add ESLint + Prettier
 
 

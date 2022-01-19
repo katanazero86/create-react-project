@@ -91,7 +91,6 @@ function addDependencyAndInitName(options) {
             pkg.devDependencies['eslint-webpack-plugin'] = '^3.1.1';
             pkg.devDependencies['prettier'] = '^2.5.1';
 
-            console.log(options);
             if (options.template === 'typescript') {
                 console.log('test');
                 pkg.devDependencies['@typescript-eslint/eslint-plugin'] = '^5.10.0';

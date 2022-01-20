@@ -18,7 +18,8 @@ ESLint + Prettier supports
 Create a project based on the Webpack bundler.
 
 💖 2022.01.18: Add tailwindCSS v3 <br/>
-💖 2022.01.19: Fix the bug, Add ESLint + Prettier
+💖 2022.01.19: Fix the bug, Add ESLint + Prettier <br/>
+💖 2022.01.20: Code Refactoring 
 
 
 ### install & usage ✨

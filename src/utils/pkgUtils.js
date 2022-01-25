@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
-import {ERROR005} from './errors.js';
+import {ERROR006} from './errors.js';
 
-function getPackageJson(projectPath) {
+const getPackage = (projectPath) => {
     const packagePath = path.join(projectPath, 'package.json');
 
     let packageJson;
@@ -11,20 +11,20 @@ function getPackageJson(projectPath) {
         packageJson = fs.readFileSync(packagePath, 'utf-8');
     } catch (err) {
         console.error(`%s The package.json file at '${packagePath}`, chalk.red.bold('ERROR'));
-        throw new Error(ERROR005);
+        throw new Error(ERROR006);
     }
 
     try {
         packageJson = JSON.parse(packageJson);
     } catch (err) {
         console.error('%s The package.json is malformed', chalk.red.bold('ERROR'));
-        throw new Error(ERROR005);
+        throw new Error(ERROR006);
     }
 
     return packageJson;
-}
+};
 
-function setPackageJson(projectPath, changedProjectPackageJson) {
+const setPackage = (projectPath, changedProjectPackageJson) => {
     const packagePath = path.join(projectPath, 'package.json');
 
     const pkgIsExist = fs.existsSync(packagePath);
@@ -32,15 +32,15 @@ function setPackageJson(projectPath, changedProjectPackageJson) {
         fs.writeFileSync(packagePath, JSON.stringify(changedProjectPackageJson, null, 2), 'utf8');
     } else {
         console.error('%s Unable to write package.json', chalk.red.bold('ERROR'));
-        throw new Error(ERROR005);
+        throw new Error(ERROR006);
     }
-}
+};
 
 export function getPkg(targetPath) {
-    const pkg = getPackageJson(targetPath);
+    const pkg = getPackage(targetPath);
     return pkg;
 }
 
 export function setPkg(targetPath, targetPkg) {
-    setPackageJson(targetPath, targetPkg);
+    setPackage(targetPath, targetPkg);
 }

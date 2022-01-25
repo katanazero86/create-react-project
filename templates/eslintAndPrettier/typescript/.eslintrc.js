@@ -32,7 +32,17 @@ module.exports = {
         '.babelrc.json',
         'tsconfig.json',
         'webpack.config.js',
-        '.eslintrc.js'
+        '.eslintrc.js',
+        '**/src/setupTests.js',
+        '**/src/*.test.js',
+        '**/src/*.spec.js',
+        '**/src/*.test.ts',
+        '**/src/*.spec.ts',
+        '**/src/*.test.jsx',
+        '**/src/*.spec.jsx',
+        '**/src/*.test.tsx',
+        '**/src/*.spec.tsx',
+        'jest.config.js',
     ],
     'rules': {
         'prettier/prettier': 'error',

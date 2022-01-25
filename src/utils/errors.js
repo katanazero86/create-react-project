@@ -7,6 +7,7 @@ export const ERROR004 = 'ERROR004';
 export const ERROR005 = 'ERROR005';
 export const ERROR006 = 'ERROR006';
 export const ERROR007 = 'ERROR007';
+export const ERROR008 = 'ERROR008';
 
 
 export default {
@@ -23,12 +24,15 @@ export default {
         console.error('%s Failed to copy ESLint + Prettier template step.', chalk.red.bold.underline('ERROR'));
     },
     [ERROR005]: function () {
-        console.error('%s Failed to Add dependency to project step.', chalk.red.bold.underline('ERROR'));
+        console.error('%s Failed to copy Jest template step.', chalk.red.bold.underline('ERROR'));
     },
     [ERROR006]: function () {
-        console.error('%s Failed to initialize git step.', chalk.red.bold.underline('ERROR'));
+        console.error('%s Failed to Add dependency to project step.', chalk.red.bold.underline('ERROR'));
     },
     [ERROR007]: function () {
+        console.error('%s Failed to initialize git step.', chalk.red.bold.underline('ERROR'));
+    },
+    [ERROR008]: function () {
         console.error('%s Failed to install dependencies step.', chalk.red.bold.underline('ERROR'));
     }
 }

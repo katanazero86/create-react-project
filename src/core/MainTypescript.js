@@ -1,7 +1,7 @@
 import Main from './Main.js';
 import {getPkg, setPkg} from '../utils/pkgUtils.js';
 import chalk from 'chalk';
-import {ERROR005} from '../utils/errors.js';
+import {ERROR006} from '../utils/errors.js';
 
 export default class MainTypescript extends Main {
 
@@ -9,7 +9,7 @@ export default class MainTypescript extends Main {
         const pkg = getPkg(this.options.targetDirectory);
         if (!pkg) {
             console.error('%s package.json file not defined', chalk.red.bold('ERROR'));
-            throw new Error(ERROR005);
+            throw new Error(ERROR006);
         } else {
             pkg.name = this.options.path;
 
@@ -35,6 +35,17 @@ export default class MainTypescript extends Main {
                 pkg.scripts['lint'] = "eslint './src/**/*.{ts,tsx,js,jsx}'";
                 pkg.scripts['lint:fix'] = "eslint --fix './src/**/*.{ts,tsx,js,jsx}'";
                 pkg.scripts['prettier:fix'] = "prettier --write 'src/**/*.{ts,tsx,js,jsx}'";
+            }
+
+            if (this.options.jest) {
+                pkg.devDependencies['@testing-library/jest-dom'] = '^5.16.1';
+                pkg.devDependencies['@testing-library/react'] = '^12.1.2';
+                pkg.devDependencies['babel-jest'] = '^27.4.6';
+                pkg.devDependencies['jest'] = '^27.4.7';
+                pkg.devDependencies['jest-svg-transformer'] = '^1.0.0';
+                pkg.devDependencies['identity-obj-proxy'] = '^3.0.0';
+                pkg.devDependencies['@types/jest'] = '^27.4.0';
+                pkg.scripts['test'] = "jest --verbose";
             }
 
             setPkg(this.options.targetDirectory, pkg);

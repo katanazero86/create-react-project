@@ -88,6 +88,15 @@ async function promptForMissingOptions(options) {
         });
     }
 
+    if (!options.jest) {
+        questions.push({
+            type: 'confirm',
+            name: 'jest',
+            message: 'Add jest?',
+            default: false,
+        });
+    }
+
     if (!options.git) {
         questions.push({
             type: 'confirm',
@@ -104,7 +113,8 @@ async function promptForMissingOptions(options) {
         git: options.git || answers.git,
         scss: options.scss || answers.scss,
         tailwind: options.tailwind || answers.tailwind,
-        eslintAndPrettier: options.eslintAndPrettier || answers.eslintAndPrettier
+        eslintAndPrettier: options.eslintAndPrettier || answers.eslintAndPrettier,
+        jest: options.jest || answers.jest,
     };
 }
 

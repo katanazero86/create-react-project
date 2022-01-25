@@ -1,7 +1,7 @@
 import fs from "fs";
 import ncp from 'ncp';
 import {execa} from 'execa';
-import {ERROR001, ERROR002, ERROR003, ERROR004, ERROR006, ERROR007} from '../utils/errors.js';
+import {ERROR001, ERROR002, ERROR003, ERROR004, ERROR005, ERROR007, ERROR008} from '../utils/errors.js';
 
 export default class Main {
 
@@ -10,7 +10,7 @@ export default class Main {
     }
 
     makeProjectDirectory() {
-        return new Promise(((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (!fs.existsSync(`./${this.options.path}`)) {
                 fs.mkdirSync(`./${this.options.path}`);
                 resolve('');
@@ -18,11 +18,11 @@ export default class Main {
                 reject(new Error(ERROR001));
             }
 
-        }));
+        });
     }
 
     copyProjectTemplate() {
-        return new Promise(((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             ncp(this.options.templateDirectory, this.options.targetDirectory, {
                 clobber: false,
             }, function (err) {
@@ -30,11 +30,11 @@ export default class Main {
                 resolve('');
             })
 
-        }));
+        });
     }
 
     copyTailwindTemplate() {
-        return new Promise(((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             ncp(this.options.tailwindTemplateDirectory, this.options.targetDirectory, {
                 clobber: true,
                 filter: (source) => {
@@ -48,21 +48,30 @@ export default class Main {
             }, function (err) {
                 if (err) reject(new Error(ERROR003));
                 resolve('');
-            })
-
-        }));
+            });
+        });
     }
 
     copyEslintAndPrettierTemplate() {
-        return new Promise(((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             ncp(this.options.eslintAndPrettierTemplateDirectory, this.options.targetDirectory, {
                 clobber: true,
             }, function (err) {
                 if (err) reject(new Error(ERROR004));
                 resolve('');
-            })
+            });
+        });
+    }
 
-        }));
+    copyJestTemplate() {
+        return new Promise((resolve, reject) => {
+            ncp(this.options.jestTemplateDirectory, this.options.targetDirectory, {
+                clobber: true,
+            }, function (err) {
+                if (err) reject(new Error(ERROR005));
+                resolve('');
+            });
+        });
     }
 
     addDependency() {
@@ -74,7 +83,7 @@ export default class Main {
             cwd: this.options.targetDirectory,
         });
         if (result.failed) {
-            return Promise.reject(new Error(ERROR006));
+            return Promise.reject(new Error(ERROR007));
         }
         return true;
     }
@@ -84,7 +93,7 @@ export default class Main {
             cwd: this.options.targetDirectory,
         });
         if (result.failed) {
-            return Promise.reject(new Error(ERROR007));
+            return Promise.reject(new Error(ERROR008));
         }
         return true;
     }

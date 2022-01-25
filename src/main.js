@@ -41,6 +41,15 @@ export async function createReactProject(options) {
         options.eslintAndPrettierTemplateDirectory = templateDir;
     }
 
+    if(options.jest) {
+        const templateDir = path.resolve(
+            pathName,
+            `../templates/jest`,
+            options.template
+        );
+        options.jestTemplateDirectory = templateDir;
+    }
+
     try {
         await access(templateDir, fs.constants.R_OK);
     } catch (err) {
@@ -69,6 +78,11 @@ export async function createReactProject(options) {
             title: 'Copy ESLint + Prettier template',
             enabled: () => options.eslintAndPrettier,
             task: () => targetMainObj.copyEslintAndPrettierTemplate(),
+        },
+        {
+            title: 'Copy Jest template',
+            enabled: () => options.jest,
+            task: () => targetMainObj.copyJestTemplate(),
         },
         {
             title: 'Add dependency to project',

@@ -34,7 +34,7 @@ export default class MainJavascript extends Main {
                 pkg.scripts['lint:fix'] = "eslint --fix './src/**/*.{ts,tsx,js,jsx}'";
                 pkg.scripts['prettier:fix'] = "prettier --write 'src/**/*.{ts,tsx,js,jsx}'";
             }
-            console.log(this.options);
+
             if (this.options.jest) {
                 console.log('zzzz');
                 pkg.devDependencies['@testing-library/jest-dom'] = '^5.16.1';

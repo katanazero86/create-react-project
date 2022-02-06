@@ -20,7 +20,7 @@ Create a project based on the Webpack bundler.
 💖 2022.01.18: Add tailwindCSS v3 <br/>
 💖 2022.01.19: Fix the bug, Add ESLint + Prettier <br/>
 💖 2022.01.20: Code Refactoring <br/>
-💖 2022.01.20: Add Jest (Testing framework)
+💖 2022.01.20: Add Jest (Testing framework) <br/>
 💖 2022.02.06: Supported ES2017(ES8) async ~ await 
 
 

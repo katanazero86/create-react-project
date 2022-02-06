@@ -21,7 +21,8 @@ module.exports = {
         'sourceType': 'module'
     },
     'plugins': [
-        'react'
+        'react',
+        'prettier'
     ],
     'ignorePatterns': [
         "**/node_modules/**",
@@ -46,7 +47,7 @@ module.exports = {
         'react/prop-types': 'off',
         'no-console': 'off',
         'semi': [1, 'always'],
-        'no-unused-vars': 'error'
+        'no-unused-vars': 'warn'
     },
     'settings': {
         'react': {

@@ -23,8 +23,7 @@ module.exports = {
         'sourceType': 'module'
     },
     'plugins': [
-        'react',
-        '@typescript-eslint'
+        'react', '@typescript-eslint', 'prettier'
     ],
     'ignorePatterns': [
         '**/node_modules/**',
@@ -50,7 +49,7 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': 'off',
         'no-console': 'off',
         'semi': [1, 'always'],
-        'no-unused-vars': 'error'
+        'no-unused-vars': 'warn'
     },
     'settings': {
         'react': {

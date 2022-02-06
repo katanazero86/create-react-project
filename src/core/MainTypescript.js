@@ -32,6 +32,7 @@ export default class MainTypescript extends Main {
                 pkg.devDependencies['prettier'] = '^2.5.1';
                 pkg.devDependencies['@typescript-eslint/eslint-plugin'] = '^5.10.0';
                 pkg.devDependencies['@typescript-eslint/parser'] = '^5.10.0';
+                pkg.devDependencies['fork-ts-checker-webpack-plugin'] = '^7.0.0';
                 pkg.scripts['lint'] = "eslint './src/**/*.{ts,tsx,js,jsx}'";
                 pkg.scripts['lint:fix'] = "eslint --fix './src/**/*.{ts,tsx,js,jsx}'";
                 pkg.scripts['prettier:fix'] = "prettier --write 'src/**/*.{ts,tsx,js,jsx}'";
